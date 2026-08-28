@@ -1,0 +1,179 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Card Poem - Chris Mason</title>
+    <style>
+        body {
+            font-family: Georgia, 'Times New Roman', Times, serif;
+        }
+
+        #info {
+            text-align: center;
+            font-size: 1.2rem;
+        }
+
+        #main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #gallery {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            margin-top: 30px;
+            margin-bottom: 20px;
+        }
+
+        #card-container {
+            width: 850px;
+            aspect-ratio: 5 / 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #card {
+            max-width: 100%;
+            max-height: 100%;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+        }
+
+        #count {
+            margin-bottom: 20px;
+        }
+
+        .disc {
+            font-style: italic;
+            font-size: .9em;
+        }
+
+        .nav-button {
+            background: none;
+            border: 1px solid #ccc;
+            color: #666;
+            padding: 6px 16px;
+            font-family: inherit;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: background-color 0.15s ease, color 0.15s ease;
+        }
+
+        .nav-button:hover:not(:disabled) {
+            border-color: #333;
+            color: #333;
+        }
+        
+        .nav-button:disabled {
+            opacity: 0.3;
+            cursor: default;
+            border-color: #ccc;
+            color: #ccc;
+        }
+
+        .ctrl-button {
+            background: none;
+            border: none;
+            color: #333;
+            font-family: inherit;
+            font-size: .95rem;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+            cursor: pointer;
+            padding: 8px 8px;
+        }
+
+        .ctrl-button:hover {
+            color: #666;
+        }
+    </style>
+    <script type="text/javascript">
+        let deck = [
+            { src: 'images/Shattered Wig 4_77card1.jpg', alt: 'this here without us here' },
+            { src: 'images/Shattered Wig 4_77card2.jpg', alt: 'Oh do not water our lawn with / gaseous gunk' },
+            { src: 'images/Shattered Wig 4_77card3.jpg', alt: 'Net not thy thoughtful dolphins for / tuna fish sandwich' },
+            { src: 'images/Shattered Wig 4_77card4.jpg', alt: 'so my kid swim freely' },
+            { src: 'images/Shattered Wig 4_77card5.jpg', alt: 'in the air or out of the air' },
+            { src: 'images/Shattered Wig 4_77card6.jpg', alt: 'Stop up thy styrofoam gas which / woundeth our sky' },
+            { src: 'images/Shattered Wig 4_77card7.jpg', alt: 'so my kid breathe easy' },
+            { src: 'images/Shattered Wig 4_77card8.jpg', alt: 'so my kid can ramble' },
+            { src: 'images/Shattered Wig 4_77card9.jpg', alt: 'Fill not our poor potatoes with / radeous chemicals' },
+            { src: 'images/Shattered Wig 4_77card10.jpg', alt: 'our forests unfrightened' },
+            { src: 'images/Shattered Wig 4_77card11.jpg', alt: 'so my kid see animals' },
+            { src: 'images/Shattered Wig 4_77card12.jpg', alt: 'us here without this here' },
+            { src: 'images/Shattered Wig 4_77card13.jpg', alt: 'light brightens' },
+            { src: 'images/Shattered Wig 4_77card14.jpg', alt: 'our water which birds had drunk' },
+        ];
+        
+        let currentIndex = 0;
+
+        function shuffleDeck() {
+            for (let i = deck.length - 1; i > 0; i--) {
+                let j = Math.floor(Math.random() * (i + 1));
+                let swap = deck[i];
+                deck[i] = deck[j];
+                deck[j] = swap;
+            }
+        }
+        
+        function previousCard() {
+            currentIndex--;
+            updateImage();
+        }
+
+        function nextCard() {
+            currentIndex++;
+            updateImage();
+        }
+
+        function recallIndex() {
+            currentIndex = 0;
+            updateImage();
+        }
+        
+        function updateImage() {
+            const img = document.getElementById('card');
+            img.src = deck[currentIndex].src;
+            img.alt = deck[currentIndex].alt;
+            document.getElementById('count').textContent = `${currentIndex + 1} | ${deck.length}`;
+            document.getElementById('prev').disabled = (currentIndex === 0);
+            document.getElementById('next').disabled = (currentIndex === deck.length - 1);
+        }
+
+        function reset() {
+            shuffleDeck();
+            currentIndex = 0;
+            updateImage()
+        }
+
+        window.onload = reset;
+    </script>
+</head>
+<body>
+    <div id="info">
+        <h1>Card Poem</h1>
+        <h3>Chris Mason</h3>
+        <div class="disc">from "rises into clouds of color"</div>
+        <div class="disc">for Elizabeth Jo Mason b. June 25, 1988</div>
+        <div class="disc">This poem should be shuffled before being read.</div>
+    </div>
+    <div id="main">
+        <div id="gallery">
+            <button id="prev" class="nav-button" onclick="previousCard()"><</button>
+            <div id="card-container">
+                <img id="card">
+            </div>
+            <button id="next" class="nav-button" onclick="nextCard()">></button>
+        </div>
+        <div id="count"></div>
+        <div id="footer">
+            <button class="ctrl-button" onclick="recallIndex()">Reset Cards</button>
+            <button class="ctrl-button" onclick="reset()">New Poem</button>
+        </div>
+    </div>
+</body>
+</html>
